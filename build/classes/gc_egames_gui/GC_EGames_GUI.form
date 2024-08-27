@@ -118,7 +118,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                   <Component id="compResults_JLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+<EmptySpace max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="32767" attributes="0"/>
@@ -217,14 +217,14 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="newCompDate_Textfield" max="32767" attributes="0"/>
+                                          <Component id="newCompDate_TextField" max="32767" attributes="0"/>
                                           <Component id="newCompLocation_TextField" alignment="0" max="32767" attributes="0"/>
                                           <Component id="newCompGame_TextField" alignment="0" max="32767" attributes="0"/>
                                           <Group type="102" attributes="0">
                                               <Component id="newCompPoints_TextField" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
-                                          <Component id="newComboResult_ComboBox" pref="251" max="32767" attributes="0"/>
+                                          <Component id="newCompResult_ComboBox" pref="251" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -241,7 +241,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="addDate_JLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="newCompDate_Textfield" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="newCompDate_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -256,7 +256,7 @@
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="addNewCompTeam_JLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="newComboResult_ComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="newCompResult_ComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -284,7 +284,7 @@
                     <Property name="text" type="java.lang.String" value="Date:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="newCompDate_Textfield">
+                <Component class="javax.swing.JTextField" name="newCompDate_TextField">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
@@ -305,7 +305,7 @@
                     <Property name="text" type="java.lang.String" value="Team:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="newComboResult_ComboBox">
+                <Component class="javax.swing.JComboBox" name="newCompResult_ComboBox">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">

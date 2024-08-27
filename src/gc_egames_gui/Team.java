@@ -48,22 +48,22 @@ public class Team
     
     
     // set methods
-     public void getTeamName(String teamName)
+     public void setTeamName(String teamName)
      {
          this.teamName = teamName;
        
      }
-     public void getContactName(String contactName)
+     public void setContactName(String contactName)
      {
          this.contactName = contactName;
          
      }
-     public void getContactPhone(String contactPhone)
+     public void setContactPhone(String contactPhone)
      {
          this.contactPhone = contactPhone;
          
      }
-     public void getContactEmail(String contactEmail)
+     public void setContactEmail(String contactEmail)
      {
          this.contactEmail = contactEmail;
          

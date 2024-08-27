@@ -10,30 +10,30 @@
     Required Functionalities
     1.   APPLICATION IS LAUNCHED
     1.1  READ-IN COMPETITION RESULTS FROM COMPETITIONS.CSV external file
-        file and set up in ArrayList<Competition> competitionList data structure
-    1.3 Read-in team names and deails from teams.csv external file and set up in ArrayList<Team>
-        teamlist data structure
-    1.4 Display read-in competition results in JTable
-    1.5 Display read-in team names in 2 x JComboBoxes
-    1.6 Display team info for selected team name in update panel
+        file and set up in ArrayList<Competition> competitionList data structure---- Done
+    1.2 Read-in team names and deails from teams.csv external file and set up in ArrayList<Team>
+        teamlist data structure--- to do
+    1.3 Display read-in competition results in JTable----- done
+    1.4 Display read-in team names in 2 x JComboBoxes-------to do
+    1.5 Display team info for selected team name in update panel-------to do 
 
     2.0 ADD A NEW COMPETITION RESULT
     2.1 Add a new (Validated) competition result to ArrayList< Competition> competitionList
-        and display a JTable
+        and display a JTable-----to do
     3.0 ADD A NEW TEAM
-    3.1 Add a new (Validated) team to ArrayList<Team> team List and add to the 2 x JComboBoxes
+    3.1 Add a new (Validated) team to ArrayList<Team> team List and add to the 2 x JComboBoxes----- to do ( partially done)
 
     4.0 UPDATE AN EXISTING TEAM
     4.1 Update details for a selected (existing) team validate changes to person. email
-        and change value in ArrayList <Team> for the selected team
+        and change value in ArrayList <Team> for the selected team------to do
 
     5.0 DISPLAY TOP TEAMS IN THE LEADERBOARD TABLE
-    5.1 Calculate total points earned for each team in ArrayList<Team> teamList
+    5.1 Calculate total points earned for each team in ArrayList<Team> teamList------to do
     5.2 List the tamList and the total points in total points descending order (Highest)
 
     6.0 APPLICATION IS CLOSED AND SAVING OF DATA
-    6.1 WHEN application is closed provide option for user to save changes (competitionList, teamList)
-    6.2 Save (write) to 2 x external csv files the data from: 
+    6.1 WHEN application is closed provide option for user to save changes (competitionList, teamList)--- done
+    6.2 Save (write) to 2 x external csv files the data from: ------- to do
         ArrayList< Competition> competitionList-----------> competitions.csv
         ArrayList<Team> teamList --------> team.csv
  */
@@ -45,14 +45,19 @@ package gc_egames_gui;
 
 // import Statements
 import gc_egames_gui.Competition;
+import gc_egames_gui.Team;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -93,7 +98,7 @@ public class GC_EGames_GUI extends javax.swing.JFrame
         // customised column names for movie JTable
         String [] columnNames_Results = new String[]
         {"Date", "Location", "Game", "Team", "Points"};
-        
+
         //set up customisation
         compResultsTableModel.setColumnIdentifiers(columnNames_Results);
         
@@ -213,7 +218,7 @@ public class GC_EGames_GUI extends javax.swing.JFrame
      catch (NumberFormatException nfe)
      {
          // catch number string conversatoion to integer exception
-         System.out.println("Error: Number format exceptionfor intege points");
+         System.out.println("Error: Number format exceptionfor integer points");
      }
      
     }
@@ -273,11 +278,6 @@ public class GC_EGames_GUI extends javax.swing.JFrame
          // catch any file not found
          System.out.println("ERROR: Read problem with teams.csv file");
      }
-     catch (NumberFormatException nfe)
-     {
-         // catch number string conversatoion to integer exception
-         System.out.println("Error: Number format exceptionfor integer points");
-     }
      
     }
     /***********************************************************************
@@ -298,7 +298,7 @@ public class GC_EGames_GUI extends javax.swing.JFrame
             // populate 2-D array with the competition
             for (int i = 0; i < competitionList.size(); i++)
             {
-                // create singel Dimensional object [] array----1 competition (for row)
+                // create single Dimensional object [] array----1 competition (for row)
                 Object [] comp = new Object [5];
                 // date 
                 comp [0] = competitionList.get(i).getCompetitionDate();
@@ -338,68 +338,39 @@ public class GC_EGames_GUI extends javax.swing.JFrame
             compResultsTableModel.fireTableDataChanged();
         }
     }
+
     private void displayTeams()
     {
         // populate the team name from team ArrayList<Team>
         // into the 2 JComboBoxes
-        // newCompResult_JComboBox
-        // updateTeam_JComboBox
+        // newCompResult_ComboBox
+        // updateTeam_ComboBox
         // checks if there are items in the combo boxes
         // if any, remove them
-        
-        // populate competition data into JTable
-        
-       /*     
-     // remove all existing rows in the JTable ( if there are any)
-        
-        if (newCompResult_JComboBox.getItemCount() > 0)
-        {
-            newCompResult_JComboBox.removeAllItems();
-            
-        }
-        if (updateTeam_JComboBox.getItemCount() > 0)
-        {
-            updateTeam_JComboBox.removeAllItems();
-        }
-        if (teamList.size() > 0)
-        {
-            for (int i = 0; i < teamList.size(); i++)
-            {
-                newCompResult_JComboBox.addItem(teamList.get(i).getTeamName());
-                updateTeam_JComboBox.addItem(teamList.get(i).getTeamName());
-                
-            }
-        }
        
-        if (teamList.size() > 0)
-        {
-            // create Object [][] 2- D array for JTable
-            Object[][] comp2DArray = new Object[teamList.size()][];
-            // populate 2-D array with the competition
-            for (int i = 0; i < teamList.size(); i++)
-            {
-                // create singel Dimensional object [] array----1 competition (for row)
-                Object [] comp = new Object [4];
-                // teamName 
-                comp [0] = teamList.get(i).getTeamName();
-                // contactName 
-                comp[1] = teamList.get(i).getContactName();
-                // contactPhone
-                comp[2] = teamList.get(i).getContactPhone();
-                // contactEmail
-                comp[3] = teamList.get(i).getContactEmail();
-                
-               
-                // append comp to the 2 D array comp 2DArray 
-                comp2DArray[i] = comp;
-                
-            }
-    }
+        if (newCompResult_ComboBox.getItemCount() > 0) {
+            newCompResult_ComboBox.removeAllItems();
+        }
     
-        */
+        if (updateTeam_ComboBox.getItemCount() > 0) {
+            updateTeam_ComboBox.removeAllItems();
+        }
+        
+    if (teamList.size() > 0) {
+            for (int i = 0; i < teamList.size(); i++) {
+                System.out.println(teamList.get(i).getTeamName());
+                newCompResult_ComboBox.addItem(teamList.get(i).getTeamName());
+                updateTeam_ComboBox.addItem(teamList.get(i).getTeamName());
+            }
+            System.out.println(newCompResult_ComboBox);
     }
+       
+    }
+
+
     private void displayTeamDetails()
-    {
+    {   
+        //this method is called when the user selects a team name from the JComboBox that is in the UPDATE EXISTING TEAM
         
     }
     
@@ -448,6 +419,59 @@ public class GC_EGames_GUI extends javax.swing.JFrame
         
         
     }
+    
+    
+    /*******************************************************************
+     Method:    validateNewCompResult()
+     Purpose:   Basic validation of user inputs when creating a new Competition
+     *          Uses Boolean validation to track the status of the validation
+     *          Uses JOption to create a pop-up window if validation is false
+     *          to advise user of errors
+     Inputs:    void
+     Outputs:   returns Boolean validation (true if all fields contain String, False if any empty
+     *******************************************************************/
+    private boolean validateNewCompResult()
+    {
+        boolean validation = true;
+        String errorMsg = "Error(s) encountered !\n";
+        
+        if (newCompDate_TextField.getText().isEmpty())
+        {
+            errorMsg += "Date required\n";
+            validation = false;
+        }       
+        if (newCompLocation_TextField.getText().isEmpty())
+        {
+         errorMsg += "Location required\n";
+         validation = false;
+        }
+        if (newCompGame_TextField.getText().isEmpty())
+        {
+            errorMsg += "New Game required\n";
+            validation = false;
+            
+        }
+        
+        if (newCompResult_ComboBox.getSelectedItem() == null )
+        {
+            errorMsg += "Competition Team required\n";
+             validation = false;
+        }
+
+        if (newCompPoints_TextField.getText().isEmpty())
+        {
+            errorMsg += "Compition Points required\n";
+            validation = false;
+        }
+        if (validation == false)
+        {
+            JOptionPane.showMessageDialog(null, errorMsg, "ERROR(s)", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return validation;
+        
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -470,13 +494,13 @@ public class GC_EGames_GUI extends javax.swing.JFrame
         addNewCompResult_JPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         addDate_JLabel = new javax.swing.JLabel();
-        newCompDate_Textfield = new javax.swing.JTextField();
+        newCompDate_TextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         newCompLocation_TextField = new javax.swing.JTextField();
         addGame_JLabel = new javax.swing.JLabel();
         newCompGame_TextField = new javax.swing.JTextField();
         addNewCompTeam_JLabel = new javax.swing.JLabel();
-        newComboResult_ComboBox = new javax.swing.JComboBox<>();
+        newCompResult_ComboBox = new javax.swing.JComboBox<>();
         addNewCompPoints_JLabel = new javax.swing.JLabel();
         newCompPoints_TextField = new javax.swing.JTextField();
         addNewCompResult_Button = new javax.swing.JButton();
@@ -550,8 +574,7 @@ public class GC_EGames_GUI extends javax.swing.JFrame
                 .addGroup(compResult_JPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, compResult_JPanelLayout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addComponent(compResults_JLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(compResults_JLabel))
                     .addGroup(compResult_JPanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(displayTopTeams_Button)))
@@ -588,7 +611,7 @@ public class GC_EGames_GUI extends javax.swing.JFrame
 
         addNewCompTeam_JLabel.setText("Team:");
 
-        newComboResult_ComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        newCompResult_ComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Jeeten" }));
 
         addNewCompPoints_JLabel.setText("Points:");
 
@@ -621,13 +644,13 @@ public class GC_EGames_GUI extends javax.swing.JFrame
                                 .addComponent(addNewCompPoints_JLabel))
                             .addGap(33, 33, 33)
                             .addGroup(addNewCompResult_JPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(newCompDate_Textfield)
+                                .addComponent(newCompDate_TextField)
                                 .addComponent(newCompLocation_TextField)
                                 .addComponent(newCompGame_TextField)
                                 .addGroup(addNewCompResult_JPanelLayout.createSequentialGroup()
                                     .addComponent(newCompPoints_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 0, Short.MAX_VALUE))
-                                .addComponent(newComboResult_ComboBox, 0, 251, Short.MAX_VALUE)))))
+                                .addComponent(newCompResult_ComboBox, 0, 251, Short.MAX_VALUE)))))
                 .addGap(292, 292, 292))
         );
         addNewCompResult_JPanelLayout.setVerticalGroup(
@@ -638,7 +661,7 @@ public class GC_EGames_GUI extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addNewCompResult_JPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addDate_JLabel)
-                    .addComponent(newCompDate_Textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(newCompDate_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addNewCompResult_JPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -650,7 +673,7 @@ public class GC_EGames_GUI extends javax.swing.JFrame
                 .addGap(29, 29, 29)
                 .addGroup(addNewCompResult_JPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addNewCompTeam_JLabel)
-                    .addComponent(newComboResult_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(newCompResult_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addNewCompResult_JPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addNewCompPoints_JLabel)
@@ -855,9 +878,40 @@ public class GC_EGames_GUI extends javax.swing.JFrame
         
     }//GEN-LAST:event_displayTopTeams_ButtonActionPerformed
 
-    private void addNewCompResult_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewCompResult_ButtonActionPerformed
+    private void addNewCompResult_ButtonActionPerformed(java.awt.event.ActionEvent evt)
+    {
+//GEN-FIRST:event_addNewCompResult_ButtonActionPerformed
         // TODO add your handling code here:
-        
+        if (validateNewCompResult() == true) {
+            // get new team data string values
+            String newCompDate = newCompDate_TextField.getText();
+            String newCompLocation = newCompLocation_TextField.getText();
+            String newGame = newCompGame_TextField.getText();
+            String newTeam = newCompResult_ComboBox.getSelectedItem().toString();
+            String newPoints = newCompPoints_TextField.getText();
+            
+            int yesOrNo = JOptionPane.showConfirmDialog(null,
+                    " You are about to add a New Competition Result for" + newTeam + "\n" +
+            "Do you wish to proceed? Yes or No?", "Add new Competition Result",
+            JOptionPane.YES_NO_OPTION);
+            
+            
+            // check if yes or no
+            if  (yesOrNo == JOptionPane.YES_OPTION)
+            {
+                // add the new competition to the ArrayList
+                competitionList.add(new Competition(newGame, newCompLocation, newCompDate, newTeam, Integer.parseInt(newPoints)));
+                
+                // update the new competition list into JComboBoxes
+                displayCompetitions();
+
+                
+            }
+            else
+            {
+                //no action
+            }
+        }
     }//GEN-LAST:event_addNewCompResult_ButtonActionPerformed
 
     private void addNewTeam_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewTeam_ButtonActionPerformed
@@ -896,7 +950,34 @@ public class GC_EGames_GUI extends javax.swing.JFrame
 
     private void updateExistingTeam_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateExistingTeam_ButtonActionPerformed
         // TODO add your handling code here:
-        
+        if (validateNewTeam() == true)
+        {
+            // get new team data string values
+            String newTeamName = newTeamName_TextField.getText();
+            String newContactPerson = newContactPerson_TextField.getText();
+            String newContactPhone = newContactPhone_TextField.getText();
+            String newContactEmail = newContactEmail_TextField.getText();
+            
+            int yesOrNo = JOptionPane.showConfirmDialog(null,
+                    " You are about to add a new team for" + newTeamName + "\n" +
+            "Do you wish to proceed? Yes or No?", "Add new team",
+            JOptionPane.YES_NO_OPTION);
+            
+            
+            // check if yes or no
+            if  (yesOrNo == JOptionPane.YES_OPTION)
+            {
+                // add the new team to the ArrayList
+                teamList.add(new Team(newTeamName, newContactPerson, newContactPhone, newContactEmail));
+                // update the new team list into JComboBoxes
+                displayTeams();
+                
+            }
+            else
+            {
+                //no action
+            }
+        }          
         
     }//GEN-LAST:event_updateExistingTeam_ButtonActionPerformed
 
@@ -956,11 +1037,62 @@ public class GC_EGames_GUI extends javax.swing.JFrame
 
     private void saveCompetitionData()
     {
+        try
+        { 
+            FileWriter writer = new FileWriter("competitions.csv");
+            
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
+            // 4. Loop through each line in the external file
+            //     until end of file is reached (EOF)
+            
+            for (Competition competition : competitionList) {
+                String line = competition.getGame() + "," + competition.getLocation() + "," + 
+                competition.getCompetitionDate() + "," + competition.getTeam() + "," + competition.getPoints();
+
+                bufferedWriter.write(line);
+
+                bufferedWriter.newLine();
+            }
+            // 5 Close the writer object
+            bufferedWriter.close();
+            writer.close();
         
+       
+        }
+        catch (IOException ioe)
+        {
+            // catch any file not found
+            System.out.println("ERROR: write problem with competitions.csv file");
+        }
     }
     
     private void saveTeamData()
     {
+        try
+        { 
+            FileWriter writer = new FileWriter("teams.csv");
+            
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+            
+            for (Team team : teamList) {
+                String line = team.getTeamName() + "," + team.getContactName() + "," + 
+                team.getContactPhone() + "," + team.getContactEmail();
+
+                bufferedWriter.write(line);
+
+                bufferedWriter.newLine();
+            }
+            // 5 Close the writer object
+            bufferedWriter.close();
+            writer.close();
+       
+        }
+        catch (IOException ioe)
+        {
+            // catch any file not found
+            System.out.println("ERROR: write problem with teams.csv file");
+        } 
         
     }
     
@@ -1024,11 +1156,11 @@ public class GC_EGames_GUI extends javax.swing.JFrame
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> newComboResult_ComboBox;
-    private javax.swing.JTextField newCompDate_Textfield;
+    private javax.swing.JTextField newCompDate_TextField;
     private javax.swing.JTextField newCompGame_TextField;
     private javax.swing.JTextField newCompLocation_TextField;
     private javax.swing.JTextField newCompPoints_TextField;
+    private javax.swing.JComboBox<String> newCompResult_ComboBox;
     private javax.swing.JTextField newContactEmail_TextField;
     private javax.swing.JLabel newContactPerson_JLabel1;
     private javax.swing.JTextField newContactPerson_TextField;
