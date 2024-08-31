@@ -56,6 +56,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -356,14 +359,14 @@ public class GC_EGames_GUI extends javax.swing.JFrame
             updateTeam_ComboBox.removeAllItems();
         }
         
-    if (teamList.size() > 0) {
-            for (int i = 0; i < teamList.size(); i++) {
-                System.out.println(teamList.get(i).getTeamName());
-                newCompResult_ComboBox.addItem(teamList.get(i).getTeamName());
-                updateTeam_ComboBox.addItem(teamList.get(i).getTeamName());
-            }
-            System.out.println(newCompResult_ComboBox);
-    }
+        if (teamList.size() > 0) {
+                for (int i = 0; i < teamList.size(); i++) {
+                    System.out.println(teamList.get(i).getTeamName());
+                    newCompResult_ComboBox.addItem(teamList.get(i).getTeamName());
+                    updateTeam_ComboBox.addItem(teamList.get(i).getTeamName());
+                }
+                System.out.println(newCompResult_ComboBox);
+        }
        
     }
 
@@ -371,7 +374,22 @@ public class GC_EGames_GUI extends javax.swing.JFrame
     private void displayTeamDetails()
     {   
         //this method is called when the user selects a team name from the JComboBox that is in the UPDATE EXISTING TEAM
+
+        String selectedTeam = ( String) updateTeam_ComboBox.getSelectedItem();
+        for (Team team : teamList)
+        {
+            System.out.println(team.getTeamName());
+            if (team.getTeamName().equals(selectedTeam))
+                {
+                    updateContactPerson_TextField.setText(team.getContactName());
+                    updateContactPhone_TextField.setText(team.getContactPhone());
+                    updateContactEmail_TextField.setText(team.getContactEmail());    
+                
+                    break;
+                }
+        }
         
+    
     }
     
     
@@ -873,7 +891,37 @@ public class GC_EGames_GUI extends javax.swing.JFrame
     // 
     private void displayTopTeams_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayTopTeams_ButtonActionPerformed
         // TODO add your handling code here:
-        //System.out.println("Display top teams button clicked");
+    
+        // Create a Map to store the total points per team
+        Map<String, Integer> teamPointsMap = new HashMap<>();
+
+        // Calculate the total points per team
+        for (Competition competition : competitionList) {
+            String team = competition.getTeam();
+            int points = competition.getPoints();
+
+            // Update the total points for each team
+            teamPointsMap.put(team, teamPointsMap.getOrDefault(team, 0) + points);
+        }
+
+        // Sort the teams by total points in descending order
+        List<Map.Entry<String, Integer>> sortedTeams = new ArrayList<>(teamPointsMap.entrySet());
+        sortedTeams.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+
+        // Build the message to display the top 4 teams
+        StringBuilder message = new StringBuilder("TEAMS LEADERBOARD:\n\n");
+        message.append(String.format("%-10s %25s\n", "Points", "Teams"));
+        message.append("-------------------------------------------\n");
+
+        int maxTeams = Math.min(4, sortedTeams.size());
+        for (int i = 0; i < maxTeams; i++) {
+            Map.Entry<String, Integer> entry = sortedTeams.get(i);
+            // Format the output with fixed-width columns
+            message.append(String.format("%-10d %25s\n", entry.getValue(), entry.getKey()));
+        }
+
+        // Display the top teams in a JOptionPane
+        JOptionPane.showMessageDialog(null, message.toString(), "TEAMS LEADERBOARD", JOptionPane.INFORMATION_MESSAGE);
         
         
     }//GEN-LAST:event_displayTopTeams_ButtonActionPerformed
@@ -948,33 +996,84 @@ public class GC_EGames_GUI extends javax.swing.JFrame
         
     }//GEN-LAST:event_addNewTeam_ButtonActionPerformed
 
-    private void updateExistingTeam_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateExistingTeam_ButtonActionPerformed
-        // TODO add your handling code here:
-        if (validateNewTeam() == true)
+    /*******************************************************************
+     Method:    validateExistingTeam()
+     Purpose:   Basic validation of user inputs when creating a new team
+     *          Uses Boolean validation to track the status of the validation
+     *          Uses JOption to create a pop-up window if validation is false
+     *          to advise user of errors
+     Inputs:    void
+     Outputs:   returns Boolean validation (true if all fields contain String, False if any empty
+     *******************************************************************/
+    private boolean validateExistingTeam()
+    {
+        boolean validation = true;
+        String errorMsg = "Error(s) encountered !\n";
+        
+        if (updateContactPerson_TextField.getText().isEmpty())
         {
-            // get new team data string values
-            String newTeamName = newTeamName_TextField.getText();
-            String newContactPerson = newContactPerson_TextField.getText();
-            String newContactPhone = newContactPhone_TextField.getText();
-            String newContactEmail = newContactEmail_TextField.getText();
+         errorMsg += "Contact person required\n";
+         validation = false;
+        }
+        if (updateContactPhone_TextField.getText().isEmpty())
+        {
+            errorMsg += "Contact phone number required\n";
+            validation = false;
+        }
+        if (updateContactEmail_TextField.getText().isEmpty())
+        {
+            errorMsg += "Contact Email address required\n";
+            validation = false;
+        }
+        if (validation == false)
+        {
+            JOptionPane.showMessageDialog(null, errorMsg, "ERROR(s)", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return validation;
+        
+        
+    }
+
+    private void updateExistingTeam_ButtonActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_updateExistingTeam_ButtonActionPerformed
+        // TODO add your handling code here:
+        if (validateExistingTeam() == true){
+            // get updated team data string values
+            String selectedTeam = ( String) updateTeam_ComboBox.getSelectedItem();
+            String updateContactPerson = updateContactPerson_TextField.getText();
+            String updateContactPhone = updateContactPhone_TextField.getText();
+            String updateContactEmail = updateContactEmail_TextField.getText();
             
             int yesOrNo = JOptionPane.showConfirmDialog(null,
-                    " You are about to add a new team for" + newTeamName + "\n" +
-            "Do you wish to proceed? Yes or No?", "Add new team",
+                    " You are about to update team for" + selectedTeam + "\n" +
+            "Do you wish to proceed? Yes or No?", "Update team",
             JOptionPane.YES_NO_OPTION);
             
             
             // check if yes or no
-            if  (yesOrNo == JOptionPane.YES_OPTION)
-            {
-                // add the new team to the ArrayList
-                teamList.add(new Team(newTeamName, newContactPerson, newContactPhone, newContactEmail));
-                // update the new team list into JComboBoxes
-                displayTeams();
-                
-            }
-            else
-            {
+            if  (yesOrNo == JOptionPane.YES_OPTION){
+                int selectedIndex = -1;
+                for (int i = 0; i < teamList.size(); i++) {
+                    if (teamList.get(i).getTeamName().equals(selectedTeam)) {
+                        selectedIndex = i;
+                        break;
+                    }
+                }
+            
+                if (selectedIndex != -1) {
+                    // Remove the old team
+                    teamList.remove(selectedIndex);
+                    
+                    // Add a new team with updated information
+                    teamList.add(new Team(selectedTeam, updateContactPerson, updateContactPhone, updateContactEmail));
+                    
+                    // Refresh the JComboBox
+                    displayTeams();
+                    
+                    JOptionPane.showMessageDialog(null, "Team updated successfully!");  
+                }
+            }else{
                 //no action
             }
         }          
@@ -996,10 +1095,10 @@ public class GC_EGames_GUI extends javax.swing.JFrame
     private void updateTeam_ComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_updateTeam_ComboBoxItemStateChanged
         // TODO add your handling code here:
     
-    if ( comboBoxStatus == true)
-    {
-        displayTeamDetails();
-    }
+        if ( comboBoxStatus == true)
+        {
+            displayTeamDetails();
+        }
         
     }//GEN-LAST:event_updateTeam_ComboBoxItemStateChanged
 /***********************************************************************
