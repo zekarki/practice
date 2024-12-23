@@ -82,17 +82,21 @@ public class GC_EGames_GUI extends javax.swing.JFrame
     // for customising the JTable( which displays comp results)
     private DefaultTableModel compResultsTableModel;
     
-    
+   
+    public GC_EGames_GUI()
+    {
+        this(new ArrayList<Competition>(),new ArrayList<Team>());
+    }
     
 
     /**
      * Creates new form GC_EGames_GUI
      */
-    public GC_EGames_GUI() 
+    public GC_EGames_GUI(ArrayList<Competition> competitionList, ArrayList<Team> teamList) 
     {
        /*************1. INITIALISE PRIVATE DATA FIELDS****************/
-        competitionList = new ArrayList<Competition>();
-        teamList = new ArrayList<Team>();
+        this.competitionList = competitionList;
+        this.teamList = teamList;
         comboBoxStatus = false;
         compResultsTableModel = new DefaultTableModel();
         
@@ -240,33 +244,20 @@ public class GC_EGames_GUI extends javax.swing.JFrame
          //     until end of file is reached (EOF)
          while ((line = bufferedReader.readLine()) != null)
          {
-             // Check line 
-             //System.out.println(line);
+             // Check line
              if (line.length() > 0)
              {
-                 // split the line string by the delimiter comma character
-                 // "League of Legends" is set up in lineArray[0]
-                 // "Tafe Commera" is set up in lineArray [1]
-                 // "23-Aug-2024" is set up in lineArray[2]
-                 
-
-                 
                  String [] lineArray = line.split(",");
                  // set up individual variables for each split line component
                  String teamName = lineArray[0];
                  String contactName = lineArray[1];
                  String contactPhone = lineArray[2];
                  String contactEmail = lineArray[3];
-                 
-                
                  // create the Team instance
                  Team team = new Team(teamName, contactName, contactPhone, contactEmail);
                  // add team to the ArrayList
-                 teamList.add(team);
-                 
-                         
-             }
-             
+                 teamList.add(team);         
+             }   
          }
          // 5 Close the reader object
          reader.close();
@@ -281,7 +272,6 @@ public class GC_EGames_GUI extends javax.swing.JFrame
          // catch any file not found
          System.out.println("ERROR: Read problem with teams.csv file");
      }
-     
     }
     /***********************************************************************
      Method: displayCompetition()
@@ -948,7 +938,8 @@ public class GC_EGames_GUI extends javax.swing.JFrame
             if  (yesOrNo == JOptionPane.YES_OPTION)
             {
                 // add the new competition to the ArrayList
-                competitionList.add(new Competition(newGame, newCompLocation, newCompDate, newTeam, Integer.parseInt(newPoints)));
+                competitionList.add(new Competition(newGame, newCompLocation, 
+                        newCompDate, newTeam, Integer.parseInt(newPoints)));
                 
                 // update the new competition list into JComboBoxes
                 displayCompetitions();
@@ -998,7 +989,7 @@ public class GC_EGames_GUI extends javax.swing.JFrame
 
     /*******************************************************************
      Method:    validateExistingTeam()
-     Purpose:   Basic validation of user inputs when creating a new team
+     Purpose:   Basic validation of user inputs when updating an existing team
      *          Uses Boolean validation to track the status of the validation
      *          Uses JOption to create a pop-up window if validation is false
      *          to advise user of errors
@@ -1007,30 +998,30 @@ public class GC_EGames_GUI extends javax.swing.JFrame
      *******************************************************************/
     private boolean validateExistingTeam()
     {
-        boolean validation = true;
+        boolean isValidated = false;
         String errorMsg = "Error(s) encountered !\n";
         
         if (updateContactPerson_TextField.getText().isEmpty())
         {
          errorMsg += "Contact person required\n";
-         validation = false;
+         isValidated = true;
         }
         if (updateContactPhone_TextField.getText().isEmpty())
         {
             errorMsg += "Contact phone number required\n";
-            validation = false;
+            isValidated = true;
         }
         if (updateContactEmail_TextField.getText().isEmpty())
         {
             errorMsg += "Contact Email address required\n";
-            validation = false;
+            isValidated = true;
         }
-        if (validation == false)
+        if (isValidated == true)
         {
             JOptionPane.showMessageDialog(null, errorMsg, "ERROR(s)", JOptionPane.ERROR_MESSAGE);
         }
         
-        return validation;
+        return isValidated;
         
         
     }
@@ -1038,7 +1029,7 @@ public class GC_EGames_GUI extends javax.swing.JFrame
     private void updateExistingTeam_ButtonActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_updateExistingTeam_ButtonActionPerformed
         // TODO add your handling code here:
-        if (validateExistingTeam() == true){
+        if (!validateExistingTeam()){
             // get updated team data string values
             String selectedTeam = ( String) updateTeam_ComboBox.getSelectedItem();
             String updateContactPerson = updateContactPerson_TextField.getText();
@@ -1142,8 +1133,6 @@ public class GC_EGames_GUI extends javax.swing.JFrame
             
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-            // 4. Loop through each line in the external file
-            //     until end of file is reached (EOF)
             
             for (Competition competition : competitionList) {
                 String line = competition.getGame() + "," + competition.getLocation() + "," + 

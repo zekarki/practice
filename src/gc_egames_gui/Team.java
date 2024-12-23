@@ -46,7 +46,6 @@ public class Team
         return contactEmail;
     }
     
-    
     // set methods
      public void setTeamName(String teamName)
      {
@@ -55,21 +54,18 @@ public class Team
      }
      public void setContactName(String contactName)
      {
-         this.contactName = contactName;
-         
+         this.contactName = contactName;   
      }
      public void setContactPhone(String contactPhone)
      {
          this.contactPhone = contactPhone;
-         
      }
      public void setContactEmail(String contactEmail)
      {
          this.contactEmail = contactEmail;
          
      }
-            
-    
+     
     // override toString() method
     // override the toString() method of the object class
     
@@ -78,6 +74,5 @@ public class Team
     {
      return teamName + ","   + contactName + "," + contactPhone + "," + contactEmail;
      
-    }
-    
+    } 
 }
